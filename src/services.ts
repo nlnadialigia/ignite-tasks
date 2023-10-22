@@ -1,3 +1,5 @@
+import csv from "fast-csv";
+import fs from "fs";
 import {IInfo} from "./model";
 import {createTask, deleteTask, findTaskById, listTasks, searchTasksByDescription, searchTasksByTitle, updateTask} from "./repository";
 
@@ -60,5 +62,28 @@ const completeTaskById = async (id: string, done: boolean) => {
   return {status: 200, data: response};
 };
 
-export {completeTaskById, createNewTask, deleteTaskById, getTasks, updateTaskInfo};
+const uploadTasks = async (file: any) => {
+  try {
+    const results: IInfo[] = [];
+  
+    fs.createReadStream(file.path)
+      .pipe(csv.parse({ headers: true }))
+      .on("data", (data) => results.push(data))
+      .on("end", () => {
+        fs.unlinkSync(file.path);
+      });
+
+    console.log(results);
+  
+    for (const {title, description} of results) {
+      await createTask(title, description);
+    }
+  
+    return true;
+  } catch (error) {
+    throw new Error("Something is wrong! ", error);
+  }
+};
+
+export {completeTaskById, createNewTask, deleteTaskById, getTasks, updateTaskInfo, uploadTasks};
 

@@ -1,5 +1,5 @@
 import {Request, Response} from "express";
-import {completeTaskById, createNewTask, deleteTaskById, getTasks, updateTaskInfo} from "./services";
+import {completeTaskById, createNewTask, deleteTaskById, getTasks, updateTaskInfo, uploadTasks} from "./services";
 
 const tasksList = async (req: Request, res: Response) => {
   try {
@@ -64,6 +64,15 @@ const completeTask = async (req: Request, res: Response) => {
     return res.status(500).json(error);
   }
 };
+const uploadTasksFile = async (req: Request, res: Response) => {
+  try {
+    await uploadTasks(req.file);
+  
+    res.sendStatus(204);
+  } catch (error) {
+    res.status(500).json(error);
+  }
+};
 
-export {completeTask, newTask, removeTask, tasksList, updateTask};
+export {completeTask, newTask, removeTask, tasksList, updateTask, uploadTasksFile};
 
