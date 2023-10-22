@@ -1,0 +1,12 @@
+version: '3.4'
+services:
+  mongo-container:
+    image: postgres:latest
+    container_name: postgresDB
+    env_file:
+      - .env
+    environment:
+      -  POSTGRES_USER=$DB_USER
+      -  POSTGRES_PASSWORD=$DB_PASSWORD
+    ports:
+      - "5432:5432"
