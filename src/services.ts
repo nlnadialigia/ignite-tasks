@@ -45,5 +45,20 @@ const deleteTaskById = async (id: string) => {
   return {status: 204, data: "Task deleted!"};
 };
 
-export {createNewTask, deleteTaskById, getTasks, updateTaskInfo};
+const completeTaskById = async (id: string, done: boolean) => {
+  const validateTask = await findTaskById(id);
+
+  if (validateTask === null) {
+    return {status: 404, data: "Task does not exist"};
+  }
+
+  const today = new Date(Date.now());
+  const info = done ? {completedAt: today} : {completedAt: null};
+
+  const response = await updateTask(info, id);
+
+  return {status: 200, data: response};
+};
+
+export {completeTaskById, createNewTask, deleteTaskById, getTasks, updateTaskInfo};
 

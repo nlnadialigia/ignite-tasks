@@ -1,6 +1,7 @@
 interface IInfo {
   title?: string,
-  description?: string
+  description?: string,
+  completedAt?: Date
 }
 
 export {IInfo};

@@ -1,5 +1,5 @@
 import {Request, Response} from "express";
-import {createNewTask, deleteTaskById, getTasks, updateTaskInfo} from "./services";
+import {completeTaskById, createNewTask, deleteTaskById, getTasks, updateTaskInfo} from "./services";
 
 const tasksList = async (req: Request, res: Response) => {
   try {
@@ -52,5 +52,18 @@ const removeTask = async (req: Request, res: Response) => {
   }
 };
 
-export {newTask, removeTask, tasksList, updateTask};
+const completeTask = async (req: Request, res: Response) => {
+  try {
+    const {id} = req.params;
+    const {done} = req.body;
+
+    const {status, data} = await completeTaskById(id, done);
+  
+    return res.status(status).json(data);
+  } catch (error) {
+    return res.status(500).json(error);
+  }
+};
+
+export {completeTask, newTask, removeTask, tasksList, updateTask};
 
