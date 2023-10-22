@@ -9,7 +9,10 @@ async function listTasks() {
 async function searchTasksByDescription(type: string) {
   return prisma.task.findMany({
     where: {
-      description: type
+      description: {
+        contains: type,
+        mode: "insensitive"
+      }
     }
   });
 }
@@ -17,7 +20,10 @@ async function searchTasksByDescription(type: string) {
 async function searchTasksByTitle(type: string) {
   return prisma.task.findMany({
     where: {
-      title: type
+      title: {
+        contains: type,
+        mode: "insensitive"
+      }
     }
   });
 }

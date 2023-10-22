@@ -3,7 +3,8 @@ import {createNewTask, getTasks} from "./services";
 
 const tasksList = async (req: Request, res: Response) => {
   try {
-    const {status, data} = await getTasks(req.body);
+    const {title, description} = req.body;
+    const {status, data} = await getTasks(title, description);
   
     res.status(status).json(data);
   } catch (error) {

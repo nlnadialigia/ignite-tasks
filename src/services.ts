@@ -1,15 +1,15 @@
 import {createTask, listTasks, searchTasksByDescription, searchTasksByTitle} from "./repository";
 
-const getTasks = async (type?: string) => {
-  const searchFunctions: Record<string, (type: string) => Promise<any>> = {
-    title: searchTasksByTitle,
-    description: searchTasksByDescription,
-    default: listTasks
-  };
+const getTasks = async (title?: string, description?: string) => {
+  let response;
 
-  const searchFunction = searchFunctions[type] || searchFunctions.default;
-
-  const response = await searchFunction(type || "");
+  if (title) {
+    response = await searchTasksByTitle(title);
+  } else if (description) {
+    response = await searchTasksByDescription(description);
+  } else {
+    response = await listTasks();
+  }
 
   return response.length === 0 ? { status: 204 } : { status: 200, data: response };
 };
