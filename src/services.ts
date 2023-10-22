@@ -1,6 +1,5 @@
 import {IInfo} from "./model";
-import {createTask, findTaskById, listTasks, searchTasksByDescription, searchTasksByTitle, updateTask} from "./repository";
-
+import {createTask, deleteTask, findTaskById, listTasks, searchTasksByDescription, searchTasksByTitle, updateTask} from "./repository";
 
 const getTasks = async (title?: string, description?: string) => {
   let response;
@@ -25,8 +24,6 @@ const createNewTask = async (title: string, description: string) => {
 const updateTaskInfo = async (info: IInfo, id: string) => {
   const validateTask = await findTaskById(id);
 
-  console.log(validateTask);
-
   if (validateTask === null) {
     return {status: 404, data: "Task does not exist"};
   }
@@ -36,5 +33,17 @@ const updateTaskInfo = async (info: IInfo, id: string) => {
   return {status: 200, data: response};
 };
 
-export {createNewTask, getTasks, updateTaskInfo};
+const deleteTaskById = async (id: string) => {
+  const validateTask = await findTaskById(id);
+
+  if (validateTask === null) {
+    return {status: 404, data: "Task does not exist"};
+  }
+
+  await deleteTask(id);
+
+  return {status: 204, data: "Task deleted!"};
+};
+
+export {createNewTask, deleteTaskById, getTasks, updateTaskInfo};
 

@@ -38,24 +38,26 @@ async function findTaskById(id: string) {
 }
 
 async function createTask(title: string, description: string) {
-  const task = await prisma.task.create({
+  return prisma.task.create({
     data: {
       description: description,
       title: title
     }
   });
-
-  return task;
 }
 
 async function updateTask(info: IInfo, id: string) {
-  const task = await prisma.task.update({
+  return prisma.task.update({
     where: {id: id},
     data: info
   });
-
-  return task;
 }
 
-export {createTask, findTaskById, listTasks, searchTasksByDescription, searchTasksByTitle, updateTask};
+async function deleteTask(id: string) {
+  return prisma.task.delete({
+    where: {id: id}
+  });
+}
+
+export {createTask, deleteTask, findTaskById, listTasks, searchTasksByDescription, searchTasksByTitle, updateTask};
 
