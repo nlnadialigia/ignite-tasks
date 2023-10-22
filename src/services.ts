@@ -1,5 +1,5 @@
 import {IInfo} from "./model";
-import {createTask, listTasks, searchTasksByDescription, searchTasksByTitle, updateTask} from "./repository";
+import {createTask, findTaskById, listTasks, searchTasksByDescription, searchTasksByTitle, updateTask} from "./repository";
 
 
 const getTasks = async (title?: string, description?: string) => {
@@ -23,6 +23,14 @@ const createNewTask = async (title: string, description: string) => {
 };
 
 const updateTaskInfo = async (info: IInfo, id: string) => {
+  const validateTask = await findTaskById(id);
+
+  console.log(validateTask);
+
+  if (validateTask === null) {
+    return {status: 404, data: "Task does not exist"};
+  }
+
   const response = await updateTask(info, id);
 
   return {status: 200, data: response};

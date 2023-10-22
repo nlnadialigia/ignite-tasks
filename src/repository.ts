@@ -29,13 +29,13 @@ async function searchTasksByTitle(type: string) {
   });
 }
 
-// async function findTaskById(id: string) {
-//   return prisma.task.findUnique({
-//     where: {
-//       id: id,
-//     }
-//   });
-// }
+async function findTaskById(id: string) {
+  return prisma.task.findUnique({
+    where: {
+      id: id,
+    }
+  });
+}
 
 async function createTask(title: string, description: string) {
   const task = await prisma.task.create({
@@ -57,4 +57,5 @@ async function updateTask(info: IInfo, id: string) {
   return task;
 }
 
-export {createTask, listTasks, searchTasksByDescription, searchTasksByTitle, updateTask};
+export {createTask, findTaskById, listTasks, searchTasksByDescription, searchTasksByTitle, updateTask};
+
