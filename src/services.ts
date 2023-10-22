@@ -1,4 +1,6 @@
-import {createTask, listTasks, searchTasksByDescription, searchTasksByTitle} from "./repository";
+import {IInfo} from "./model";
+import {createTask, listTasks, searchTasksByDescription, searchTasksByTitle, updateTask} from "./repository";
+
 
 const getTasks = async (title?: string, description?: string) => {
   let response;
@@ -20,5 +22,11 @@ const createNewTask = async (title: string, description: string) => {
   return { status: 200, data: response };
 };
 
-export {createNewTask, getTasks};
+const updateTaskInfo = async (info: IInfo, id: string) => {
+  const response = await updateTask(info, id);
+
+  return {status: 200, data: response};
+};
+
+export {createNewTask, getTasks, updateTaskInfo};
 
